@@ -569,6 +569,23 @@ document.addEventListener("DOMContentLoaded", () => {
         `
         }
       </div>
+      <div class="share-section">
+        <span class="share-label">Share:</span>
+        <div class="share-buttons">
+          <button class="share-btn share-twitter tooltip" data-activity="${name}" aria-label="Share on X (Twitter)">
+            𝕏
+            <span class="tooltip-text">Share on X (Twitter)</span>
+          </button>
+          <button class="share-btn share-whatsapp tooltip" data-activity="${name}" aria-label="Share on WhatsApp">
+            💬
+            <span class="tooltip-text">Share on WhatsApp</span>
+          </button>
+          <button class="share-btn share-copy tooltip" data-activity="${name}" aria-label="Copy link">
+            🔗
+            <span class="tooltip-text">Copy link</span>
+          </button>
+        </div>
+      </div>
     `;
 
     // Add click handlers for delete buttons
@@ -586,6 +603,43 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareUrl =
+      `${window.location.origin}${window.location.pathname}` +
+      `?activity=${encodeURIComponent(name)}`;
+    const shareText = `Check out "${name}" at Mergington High School: ${details.description}`;
+
+    const twitterBtn = activityCard.querySelector(".share-twitter");
+    twitterBtn.addEventListener("click", () => {
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, "_blank", "noopener,noreferrer");
+    });
+
+    const whatsappBtn = activityCard.querySelector(".share-whatsapp");
+    whatsappBtn.addEventListener("click", () => {
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`;
+      window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    });
+
+    const copyBtn = activityCard.querySelector(".share-copy");
+    copyBtn.addEventListener("click", () => {
+      if (navigator.share) {
+        navigator
+          .share({ title: name, text: shareText, url: shareUrl })
+          .catch((err) => {
+            if (err.name !== "AbortError") {
+              showMessage("Unable to share. Please try copying the link.", "error");
+            }
+          });
+      } else {
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          showMessage("Link copied to clipboard!", "success");
+        }).catch(() => {
+          showMessage("Unable to copy link. Please copy it manually.", "error");
+        });
+      }
+    });
 
     activitiesList.appendChild(activityCard);
   }
