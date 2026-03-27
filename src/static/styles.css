@@ -617,6 +617,9 @@ footer {
   position: absolute;
   top: 10px;
   right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 #user-status {
@@ -663,4 +666,57 @@ footer {
 
 #logout-button:hover {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Dark mode toggle button */
+#dark-mode-toggle {
+  margin-right: 8px;
+  font-size: 1rem;
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  --background: #1a1a2e;
+  --surface: #16213e;
+  --text-primary: #e0e0e0;
+  --text-secondary: #aaaaaa;
+  --border: #2e3a5a;
+  --border-light: #253050;
+  --border-focus: #3a4a70;
+  --success-light: #1b3a1c;
+  --warning-light: #3a2e0a;
+  --error-light: #3a1010;
+  --info-light: #0a2030;
+}
+
+body.dark-mode .activity-tag {
+  background: #1e2a5e;
+  color: #7986cb;
+}
+
+body.dark-mode .search-box input {
+  background-color: var(--surface);
+  color: var(--text-primary);
+}
+
+body.dark-mode .category-filter,
+body.dark-mode .day-filter,
+body.dark-mode .time-filter {
+  background-color: var(--border);
+  border-color: var(--border-focus);
+  color: var(--text-primary);
+}
+
+body.dark-mode .modal-content h3 {
+  color: var(--primary-light);
+}
+
+body.dark-mode .form-group input {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border);
+}
+
+body.dark-mode footer {
+  color: var(--text-secondary);
 }
